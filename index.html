@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💧 Trink Genug! - Wasser-Erinnerung</title>
+    <!-- Verknüpfung zur CSS-Datei für das Styling -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Container für die gesamte App -->
+    <div class="app-container">
+        
+        <!-- Kopfbereich mit Titel -->
+        <header class="header">
+            <h1>💧 Trink Genug!</h1>
+            <p class="subtitle">Bleib hydriert – dein Körper wird es dir danken!</p>
+            <!-- Warnung wenn Sounds fehlen (zunächst versteckt) -->
+            <div class="sound-warning" id="sound-warning" style="display: none;">
+                ⚠️ Sound-Dateien fehlen! Bitte lege reminder.m4a und gluckern.m4a in den sounds/ Ordner.
+            </div>
+        </header>
+
+        <!-- Hauptbereich mit dem Wasserglas -->
+        <main class="main-content">
+            
+            <!-- Timer-Anzeige für die nächste Erinnerung -->
+            <div class="timer-section">
+                <p>Nächste Erinnerung in:</p>
+                <div class="timer-display" id="timer-display">02:00:00</div>
+            </div>
+
+            <!-- Das animierte Wasserglas -->
+            <div class="glass-container">
+                <div class="glass">
+                    <!-- Der Wasserstand - wird per JavaScript gefüllt -->
+                    <div class="water" id="water">
+                        <!-- Wellenanimation oben auf dem Wasser -->
+                        <div class="wave"></div>
+                        <div class="wave wave2"></div>
+                    </div>
+                    <!-- Glasreflexion für realistischen Look -->
+                    <div class="glass-reflection"></div>
+                </div>
+                
+                <!-- Anzeige des aktuellen Füllstands -->
+                <div class="fill-indicator">
+                    <span id="current-amount">0</span> / 2 Liter
+                </div>
+            </div>
+
+            <!-- Steuerungsbuttons -->
+            <div class="controls">
+                <button class="btn btn-add" id="btn-add">
+                    <span class="btn-icon">💧</span>
+                    +0,25 L
+                </button>
+                <button class="btn btn-reset" id="btn-reset">
+                    <span class="btn-icon">🔄</span>
+                    Reset
+                </button>
+            </div>
+
+        </main>
+
+        <!-- Erinnerungs-Popup (zunächst versteckt) -->
+        <div class="reminder-popup" id="reminder-popup">
+            <div class="reminder-content">
+                <div class="reminder-icon">💧</div>
+                <h2>Zeit zu trinken!</h2>
+                <p>Gönn dir ein Glas Wasser – du hast es verdient!</p>
+                <button class="btn btn-dismiss" id="btn-dismiss">Verstanden!</button>
+            </div>
+        </div>
+
+        <!-- Container für die Herz-Animation bei vollem Glas -->
+        <div class="hearts-container" id="hearts-container"></div>
+
+    </div>
+
+    <!-- Audio-Elemente für die Sounds -->
+    <!-- Der Erinnerungs-Sound (alle 2 Stunden) -->
+    <audio id="reminder-sound" preload="auto">
+        <source src="sounds/reminder.m4a" type="audio/mp4">
+        <source src="sounds/reminder.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- Der Gluckern-Sound (beim Wasser hinzufügen) -->
+    <audio id="gluckern-sound" preload="auto">
+        <source src="sounds/gluckern.m4a" type="audio/mp4">
+        <source src="sounds/gluckern.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Verknüpfung zur JavaScript-Datei -->
+    <script src="script.js"></script>
+</body>
+</html>
+
