@@ -1,0 +1,489 @@
+/* ============================================
+   TRINK GENUG! - Stylesheet
+   Eine freundliche Wasser-Trink-App
+   ============================================ */
+
+/* ---- Grundlegende Variablen für Farben ---- */
+:root {
+    /* Hauptfarben - verschiedene Blautöne */
+    --water-light: #7dd3fc;      /* Helles Wasser-Blau */
+    --water-medium: #38bdf8;     /* Mittleres Blau */
+    --water-dark: #0284c7;       /* Dunkles Blau */
+    --water-deep: #0369a1;       /* Tiefes Blau */
+    
+    /* Hintergrund-Farben */
+    --bg-gradient-start: #e0f2fe; /* Sehr helles Blau */
+    --bg-gradient-end: #bae6fd;   /* Helles Himmelblau */
+    
+    /* Text-Farben */
+    --text-primary: #0c4a6e;      /* Dunkles Blau für Text */
+    --text-secondary: #0369a1;    /* Mittleres Blau */
+    
+    /* Akzentfarben */
+    --accent-pink: #f0abfc;       /* Rosa für Herzen */
+    --white: #ffffff;
+    --shadow: rgba(3, 105, 161, 0.2);
+}
+
+/* ---- Grundeinstellungen für die Seite ---- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* Sanfter Blau-Verlauf als Hintergrund */
+    background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', 'Arial Rounded MT Bold', 'Helvetica Neue', sans-serif;
+    color: var(--text-primary);
+    overflow-x: hidden;
+}
+
+/* ---- App-Container ---- */
+.app-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ---- Kopfbereich ---- */
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    color: var(--water-dark);
+    text-shadow: 2px 2px 4px var(--shadow);
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    font-weight: 300;
+}
+
+/* ---- Sound-Warnung ---- */
+.sound-warning {
+    background: #fef3c7;
+    border: 2px solid #f59e0b;
+    border-radius: 10px;
+    padding: 12px 20px;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #92400e;
+    text-align: center;
+    animation: fadeInDown 0.5s ease-out;
+}
+
+/* ---- Timer-Bereich ---- */
+.timer-section {
+    text-align: center;
+    margin-bottom: 30px;
+    animation: fadeIn 1s ease-out 0.3s backwards;
+}
+
+.timer-section p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+}
+
+.timer-display {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--water-dark);
+    background: var(--white);
+    padding: 15px 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px var(--shadow);
+    font-variant-numeric: tabular-nums; /* Zahlen haben gleiche Breite */
+}
+
+/* ---- Hauptinhalt ---- */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* ---- Glas-Container ---- */
+.glass-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+    animation: fadeIn 1s ease-out 0.5s backwards;
+}
+
+/* ---- Das Wasserglas ---- */
+.glass {
+    width: 150px;
+    height: 250px;
+    /* Glasform mit CSS - nach unten leicht verjüngt */
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.6) 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.4) 100%
+    );
+    border: 4px solid rgba(255, 255, 255, 0.8);
+    border-radius: 10px 10px 30px 30px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+        0 10px 40px var(--shadow),
+        inset 0 0 30px rgba(255, 255, 255, 0.3);
+    /* Leichte Perspektive für 3D-Effekt */
+    transform: perspective(500px) rotateX(5deg);
+}
+
+/* ---- Das Wasser im Glas ---- */
+.water {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0%; /* Startet bei 0%, wird per JavaScript gefüllt */
+    background: linear-gradient(
+        180deg,
+        var(--water-light) 0%,
+        var(--water-medium) 50%,
+        var(--water-dark) 100%
+    );
+    border-radius: 0 0 26px 26px;
+    /* Sanfte Animation beim Füllen */
+    transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---- Wellen-Animation auf dem Wasser ---- */
+.wave {
+    position: absolute;
+    top: -10px;
+    left: -20%;
+    width: 140%;
+    height: 20px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120'%3E%3Cpath fill='%237dd3fc' d='M0,60 C150,120 350,0 600,60 C850,120 1050,0 1200,60 L1200,120 L0,120 Z'/%3E%3C/svg%3E");
+    background-size: 100% 100%;
+    animation: wave 3s ease-in-out infinite;
+    opacity: 0.8;
+}
+
+.wave2 {
+    top: -5px;
+    animation: wave 4s ease-in-out infinite reverse;
+    opacity: 0.5;
+}
+
+/* Wellenanimation */
+@keyframes wave {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-10%);
+    }
+}
+
+/* ---- Glasreflexion ---- */
+.glass-reflection {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 30px;
+    height: 80px;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.6) 0%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+/* ---- Füllstand-Anzeige ---- */
+.fill-indicator {
+    margin-top: 20px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--water-dark);
+    background: var(--white);
+    padding: 10px 25px;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px var(--shadow);
+}
+
+#current-amount {
+    color: var(--water-medium);
+    font-size: 1.5rem;
+}
+
+/* ---- Steuerungsbuttons ---- */
+.controls {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeIn 1s ease-out 0.7s backwards;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px var(--shadow);
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px var(--shadow);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-icon {
+    font-size: 1.3rem;
+}
+
+/* Hinzufügen-Button */
+.btn-add {
+    background: linear-gradient(135deg, var(--water-medium) 0%, var(--water-dark) 100%);
+    color: var(--white);
+}
+
+.btn-add:hover {
+    background: linear-gradient(135deg, var(--water-light) 0%, var(--water-medium) 100%);
+}
+
+/* Reset-Button */
+.btn-reset {
+    background: var(--white);
+    color: var(--water-dark);
+    border: 2px solid var(--water-medium);
+}
+
+.btn-reset:hover {
+    background: var(--bg-gradient-start);
+}
+
+/* ---- Erinnerungs-Popup ---- */
+.reminder-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(3, 105, 161, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    /* Standardmäßig versteckt */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+}
+
+.reminder-popup.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.reminder-content {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 30px;
+    text-align: center;
+    max-width: 350px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: popIn 0.5s ease-out;
+}
+
+.reminder-icon {
+    font-size: 4rem;
+    margin-bottom: 15px;
+    animation: bounce 1s ease infinite;
+}
+
+.reminder-content h2 {
+    color: var(--water-dark);
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+}
+
+.reminder-content p {
+    color: var(--text-secondary);
+    margin-bottom: 25px;
+}
+
+.btn-dismiss {
+    background: linear-gradient(135deg, var(--water-medium) 0%, var(--water-dark) 100%);
+    color: var(--white);
+    padding: 12px 35px;
+    font-size: 1rem;
+}
+
+/* ---- Herz-Animation bei vollem Glas ---- */
+.hearts-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 999;
+    overflow: hidden;
+}
+
+.heart {
+    position: absolute;
+    font-size: 2rem;
+    animation: floatHeart 4s ease-out forwards;
+    opacity: 0;
+}
+
+/* Herz-Animation von unten nach oben */
+@keyframes floatHeart {
+    0% {
+        opacity: 1;
+        transform: translateY(100vh) scale(0.5) rotate(0deg);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(1.5) rotate(360deg);
+    }
+}
+
+/* ---- Hilfsklass für "Wasserfüllung" Animation ---- */
+.water.filling {
+    animation: waterPulse 0.5s ease;
+}
+
+@keyframes waterPulse {
+    0%, 100% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.2);
+    }
+}
+
+/* ---- Allgemeine Animationen ---- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    70% {
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* ---- Pulsieren beim Timer-Alarm ---- */
+.timer-display.pulse {
+    animation: timerPulse 0.5s ease infinite;
+}
+
+@keyframes timerPulse {
+    0%, 100% {
+        background: var(--white);
+    }
+    50% {
+        background: var(--water-light);
+    }
+}
+
+/* ---- Responsive Design für kleinere Bildschirme ---- */
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .glass {
+        width: 120px;
+        height: 200px;
+    }
+    
+    .timer-display {
+        font-size: 1.5rem;
+        padding: 12px 20px;
+    }
+    
+    .btn {
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+    
+    .controls {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* ---- Schüttel-Animation für Erinnerung ---- */
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
